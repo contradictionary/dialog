@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Dialog UI Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="../src/dialog.css"
+      rel="stylesheet" />
+  </head>
+
+  <body class="no-scroll-1">
+    <!-- <output
+      aria-hidden="true"
+      style="
+        height: 200px;
+        overflow: auto;
+        display: block;
+        background-color: gray;
+        color: black;
+        padding: 0.5rem 0.8rem;
+      "
+      id="logs"></output> -->
+
+    <script>
+      // const _console_log = console.log;
+      // console.log = (...args) => {
+      //   const e = document.querySelector("#logs");
+      //   const p = document.createElement("p");
+      //   const pre = document.createElement("pre");
+      //   pre.innerHTML = JSON.stringify(args.join("|")).replaceAll('"', "");
+      //   p.appendChild(pre);
+      //   e.prepend(p);
+      //   _console_log(...args);
+      // };
+    </script>
+    <main class="p-5">
+      <div class="p-4 flex flex-col gap-2 border rounded-md items-start">
+        <!-- <div class="flex flex-col gap-2">
+          <h3>
+            <label>
+              <input
+                type="checkbox"
+                id="prevent-open" />
+              <span>Prevent Default on Open</span>
+            </label>
+          </h3>
+          <h3>
+            <label>
+              <input
+                type="checkbox"
+                id="prevent-close" />
+              <span>Prevent Default on Close</span>
+            </label>
+          </h3>
+        </div> -->
+        <div class="flex flex-wrap">
+          <button class="px-6 py-2 border rounded-lg bg-red-950 text-white">
+            Show Dialog
+          </button>
+        </div>
+      </div>
+    </main>
+    <div
+      data-cmp-dialog
+      aria-hidden="true"
+      aria-modal="true"
+      role="dialog"
+      id="main-dialog"
+      data-close-class="hidden"
+      class="fixed inset-0 z-10 w-screen overflow-y-auto h-screen bg-slate-800/75">
+      <div class="relative h-screen w-screen overflow-auto">
+        <div
+          data-cmp-dialog-content
+          class="grid h-full w-full place-content-center">
+          <div class="border bg-white p-4 h-screen">
+            <div
+              class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+              <button
+                data-cmp-dialog-close-button
+                id="closebtn"
+                class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                Close
+              </button>
+            </div>
+            <div class="px-4 pb-4 sm:p-6 sm:pb-4">
+              <h3
+                class="text-base font-semibold leading-6 text-gray-900"
+                id="modal-title">
+                This is my information dialog
+              </h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Laboriosam, laborum deleniti quos sequi facere molestias quae
+                  dolores! Libero magni quos quam repellat reiciendis,
+                  consequuntur quidem delectus corrupti aperiam, excepturi
+                  dolore.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-cmp-dialog
+      aria-hidden="true"
+      aria-modal="true"
+      role="dialog"
+      id="confirm-dialog"
+      data-close-class="hidden"
+      class="fixed inset-0 z-10 w-screen overflow-y-auto h-screen bg-slate-800/75 hidden">
+      <div class="relative h-screen w-screen overflow-auto">
+        <div
+          data-cmp-dialog-content
+          class="grid w-full w-full place-content-center p-4">
+          <div class="border bg-white p-4 rounded-lg">
+            <div class="px-4 pb-4 sm:p-6 sm:pb-4">
+              <h3
+                class="text-base font-semibold leading-6 text-gray-900"
+                id="modal-title">
+                This is my Confirmation Dialog
+              </h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Laboriosam, laborum deleniti quos sequi facere molestias quae
+                  dolores! Libero magni quos quam repellat reiciendis,
+                  consequuntur quidem delectus corrupti aperiam, excepturi
+                  dolore.
+                </p>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:px-6">
+              <button
+                data-cmp-dialog-close-button
+                id="closebtnyes"
+                type="button"
+                value="yes"
+                class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                Yes
+              </button>
+              <button
+                data-cmp-dialog-close-button
+                id="closebtnno"
+                type="button"
+                value="no"
+                class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm border sm:ml-3 sm:w-auto">
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script
+    src="../src/dialog.js"
+    type="module"
+    defer></script>
+  <script type="module">
+    import { clsDialogWithConfirmOnClose, clsDialog } from "../src/dialog.js";
+    const mainDialog = new clsDialog(document.querySelector("#main-dialog"));
+    mainDialog.close();
+    const confirm = new clsDialog(document.querySelector("#confirm-dialog"));
+    confirm.close();
+    const dialog = new clsDialogWithConfirmOnClose(
+      mainDialog.UI.ROOT,
+      confirm.UI.ROOT,
+      "clsDialogWithConfirmOnClose"
+    );
+    const closeBtn = document.querySelector("#closebtn");
+    mainDialog.firstElement = dialog.lastElement = closeBtn;
+    const button = document.querySelector("button");
+    button.addEventListener("click", () => {
+      mainDialog.show("promise.show").then((detail) => {
+        console.log("promise.then ~ Dialog has been closed.", detail);
+      });
+      requestAnimationFrame(() => closeBtn.focus());
+    });
+  </script>
+</html>
