@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Input</title>
+    <link href="dialog.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- <output aria-hidden="true"
+        style="height: 200px;overflow: auto;display: block;background-color: gray;color: black;padding: .5rem .8rem;"
+        id="logs"></output>
+
+    <script>
+
+        const _console_log = console.log;
+        console.log = (...args) => {
+            const e = document.querySelector("#logs");
+            const p = document.createElement("p");
+            const pre = document.createElement("pre");
+            pre.innerHTML = JSON.stringify(args.join("|")).replaceAll('"', "");
+            p.appendChild(pre);
+            e.prepend(p);
+            _console_log(...args);
+        };
+
+    </script> -->
+    <a href="http://google.com">Google</a>
+    <p>
+    <h3>
+        <label>
+            <input type="checkbox" id="prevent-open">
+            <span>Prevent Default on Open</span>
+        </label>
+    </h3>
+    <h3>
+        <label>
+            <input type="checkbox" id="prevent-close">
+            <span>Prevent Default on Close</span>
+        </label>
+    </h3>
+
+    <button>
+        Show Dialog
+    </button>
+
+    <button id="button2">
+        Show Confirmation Dialog
+    </button>
+
+    <button id="button3">
+        Show Prompt Dialog
+    </button>
+
+    </p>
+
+    <template>
+        <h2>Dialog Content</h2>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aliquam, alias earum error vel
+            repellendus deserunt! Reprehenderit rerum est iure nostrum, sunt possimus accusantium voluptate tempore non
+            suscipit, ullam provident.</p>
+        <a href="http://exmaple.com">More Info</a>
+    </template>
+</body>
+<script src="dialog.js" defer></script>
+
+</html>
