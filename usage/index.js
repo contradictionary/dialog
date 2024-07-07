@@ -10,7 +10,9 @@ const dialog = new clsDialog(document.querySelector("[data-cmp-dialog]"));
 // Adding event listeners
 dialog.on("dialog-opening", (event) => {
   console.log("Dialog is opening.", event.detail);
-
+  requestAnimationFrame(()=>{
+    dialog.UI.ROOT.querySelector('#modal-content-container')?.classList.add('active');
+  });
   // event.preventDefault();
   if (preventOpen()) {
     // Prevents dialog from opening
@@ -30,6 +32,7 @@ dialog.on("dialog-closing", (event) => {
     // Prevents dialog from closing
     event.preventDefault();
   }
+  dialog.UI.ROOT.querySelector('#modal-content-container')?.classList.remove('active');
 });
 
 dialog.on("dialog-closed", () => {

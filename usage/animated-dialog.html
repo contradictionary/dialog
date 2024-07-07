@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Animated Dialog Demo</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      /* background-color: slategrey; */
+    }
+    .root {
+      padding: 2rem 3rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: grid;
+      place-content: center;
+      display: none;
+    }
+    .root.show{
+      display: block;
+    }
+    .content {
+      background-color: rgb(209, 196, 237);
+      color: rgb(65, 0, 0);
+      opacity: 0;
+      margin-top: 200px;
+      overflow: hidden;
+      transition-property: opacity, scale, margin-top;
+      transition-duration: 0.2s;
+      transition-timing-function:cubic-bezier(0.250, 0.460, 0.450, 0.940);
+      padding: 1.5rem 2rem;
+      scale: 0.3;
+      border-radius: 0.5rem;
+      font-size:1.3rem;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+    }
+    .content.active {
+      opacity: 1;
+      margin-top: 0;
+      scale: 1;
+    }
+  </style>
+  <body>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem deleniti
+      esse minima accusamus eius facere pariatur delectus. Vel culpa, dolor eius
+      nostrum nam reiciendis! Tempore, velit! Expedita repellendus et veritatis.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem deleniti
+      esse minima accusamus eius facere pariatur delectus. Vel culpa, dolor eius
+      nostrum nam reiciendis! Tempore, velit! Expedita repellendus et veritatis.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem deleniti
+      esse minima accusamus eius facere pariatur delectus. Vel culpa, dolor eius
+      nostrum nam reiciendis! Tempore, velit! Expedita repellendus et veritatis.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem deleniti
+      esse minima accusamus eius facere pariatur delectus. Vel culpa, dolor eius
+      nostrum nam reiciendis! Tempore, velit! Expedita repellendus et veritatis.
+    </p>
+    <div class="root">
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam,
+          similique exercitationem voluptas, repellendus impedit fuga rem,
+          eveniet iste quidem eaque soluta amet ipsum molestiae! Obcaecati illum
+          quisquam vero doloribus assumenda!
+        </p>
+      </div>
+    </div>
+  </body>
+  <script>
+    setTimeout(
+      () => {
+        document.querySelector(".root")?.classList.add("show")
+      }
+    ,1000);
+    setTimeout(
+      () => {
+        document.querySelector(".content")?.classList.add("active")
+      }
+    ,1300);
+  </script>
+</html>
