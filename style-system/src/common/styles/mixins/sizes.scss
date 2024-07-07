@@ -1,0 +1,143 @@
+$sizes: (
+    small:.25rem,
+    medium:.5rem,
+    base:1rem,
+    large:1.25rem,
+    x-large:2.5rem,
+    xx-large:3rem
+);
+$size_Alias: (
+    small:s,
+    medium:md,
+    base:b,
+    large:l,
+    x-large:xl,
+    xx-large:xxl,
+);
+
+@mixin mapUtil($objMap, $propName, $shortName: '', $prefix: '', $nameMap: ()) {
+    $ahead: '';
+    $sName: '';
+
+    @if $prefix !='' {
+        $ahead : #{$prefix};
+    }
+
+    @if $shortName !='' {
+        $sName: -#{$shortName}
+    }
+
+    @each $key_name, $value in $objMap {
+        $shortKey : -#{$key_name};
+        $keyMapValue : map-get($map: $nameMap, $key: $key_name );
+
+        @if $keyMapValue {
+            $shortKey : -#{$keyMapValue};
+        }
+
+        .#{$ahead}#{$sName}#{$shortKey} {
+            #{$propName}: $value;
+        }
+    }
+}
+
+
+@include mapUtil($sizes, 'padding', 'p', '', $size_Alias);
+
+@include mapUtil($sizes, 'padding-top', 'pt', '', $size_Alias);
+@include mapUtil($sizes, 'padding-left', 'pl', '', $size_Alias);
+@include mapUtil($sizes, 'padding-bottom', 'pb', '', $size_Alias);
+@include mapUtil($sizes, 'padding-right', 'pr', '', $size_Alias);
+
+@include mapUtil($sizes, 'padding-left', 'ph', '', $size_Alias);
+@include mapUtil($sizes, 'padding-right', 'ph', '', $size_Alias);
+@include mapUtil($sizes, 'padding-top', 'pv', '', $size_Alias);
+@include mapUtil($sizes, 'padding-bottom', 'pv', '', $size_Alias);
+
+@include mapUtil($sizes, 'margin', 'p', '', $size_Alias);
+
+@include mapUtil($sizes, 'margin-top', 'pt', '', $size_Alias);
+@include mapUtil($sizes, 'margin-left', 'pl', '', $size_Alias);
+@include mapUtil($sizes, 'margin-bottom', 'pb', '', $size_Alias);
+@include mapUtil($sizes, 'margin-right', 'pr', '', $size_Alias);
+
+@include mapUtil($sizes, 'margin-left', 'ph', '', $size_Alias);
+@include mapUtil($sizes, 'margin-right', 'ph', '', $size_Alias);
+@include mapUtil($sizes, 'margin-top', 'pv', '', $size_Alias);
+@include mapUtil($sizes, 'margin-bottom', 'pv', '', $size_Alias);
+
+
+@include tablet {
+    @include mapUtil($sizes, 'padding', 'p', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-top', 'pt', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-left', 'pl', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-bottom', 'pb', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-right', 'pr', 'md\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'padding-left', 'ph', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-right', 'ph', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-top', 'pv', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-bottom', 'pv', 'md\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin', 'p', 'md\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin-top', 'pt', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-left', 'pl', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-bottom', 'pb', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-right', 'pr', 'md\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin-left', 'ph', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-right', 'ph', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-top', 'pv', 'md\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-bottom', 'pv', 'md\\:', $size_Alias);
+}
+
+@include desktop-small {
+    @include mapUtil($sizes, 'padding', 'p', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-top', 'pt', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-left', 'pl', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-bottom', 'pb', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-right', 'pr', 'lg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'padding-left', 'ph', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-right', 'ph', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-top', 'pv', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-bottom', 'pv', 'lg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin', 'p', 'lg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin-top', 'pt', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-left', 'pl', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-bottom', 'pb', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-right', 'pr', 'lg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin-left', 'ph', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-right', 'ph', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-top', 'pv', 'lg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-bottom', 'pv', 'lg\\:', $size_Alias);
+}
+
+@include desktop-medium {
+    @include mapUtil($sizes, 'padding', 'p', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-top', 'pt', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-left', 'pl', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-bottom', 'pb', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-right', 'pr', 'xlg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'padding-left', 'ph', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-right', 'ph', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-top', 'pv', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'padding-bottom', 'pv', 'xlg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin', 'p', 'xlg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin-top', 'pt', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-left', 'pl', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-bottom', 'pb', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-right', 'pr', 'xlg\\:', $size_Alias);
+
+    @include mapUtil($sizes, 'margin-left', 'ph', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-right', 'ph', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-top', 'pv', 'xlg\\:', $size_Alias);
+    @include mapUtil($sizes, 'margin-bottom', 'pv', 'xlg\\:', $size_Alias);
+}

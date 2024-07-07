@@ -1,0 +1,31 @@
+@use "sass:map";
+
+$breakpoint-small-px: 360px; // Mobile Viewport (360px)
+$breakpoint-medium-px: 768px; // Tablet Viewport (768px)
+$breakpoint-large-px: 1024px; // Desktop Small Viewport (1024px)
+$breakpoint-x-large-px: 1366px; // Desktop Medium Viewport (1366px)
+
+$breakpointsMap: (
+    "tablet": $breakpoint-small-px,
+    "desktop-small": $breakpoint-large-px,
+    "desktop-medium": $breakpoint-x-large-px,
+);
+
+// MEDIA QUERIES
+@mixin tablet {
+    @media (min-width: #{map.get($breakpointsMap, "tablet")}) {
+        @content;
+    }
+}
+
+@mixin desktop-small {
+    @media (min-width: #{map.get($breakpointsMap, "desktop-small")}) {
+        @content;
+    }
+}
+
+@mixin desktop-medium {
+    @media (min-width: #{map.get($breakpointsMap, "desktop-medium")}) {
+        @content;
+    }
+}
