@@ -1,4 +1,4 @@
-import { CreateReadonly } from "./common/type-helpers";
+import type { CreateReadonly } from "./common/type-helpers";
 function isInput(element: TSupportedElementTypes): element is HTMLInputElement {
   return element && element.tagName == "INPUT";
 }

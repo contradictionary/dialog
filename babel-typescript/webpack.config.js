@@ -1,6 +1,5 @@
 const path = require("path");
 
-
 /**@type {import('@types/webpack/index').Configuration} */
 const config = {
   resolve: { extensions: [".js", ".ts"] },
@@ -17,6 +16,9 @@ const config = {
         test: /\.ts$/,
         exclude: /node_modules/,
         loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env", "@babel/preset-typescript"],
+        },
       },
     ],
   },

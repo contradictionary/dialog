@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && webpack --mode production"
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
