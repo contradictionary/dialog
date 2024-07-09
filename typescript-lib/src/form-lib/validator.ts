@@ -1,4 +1,3 @@
-import type { CreateReadonly } from "./common/type-helpers";
 function isInput(element: TSupportedElementTypes): element is HTMLInputElement {
   return element && element.tagName == "INPUT";
 }
@@ -298,4 +297,3 @@ class FormValidator {
     return this.validators.every((s) => s.validate());
   }
 }
-export { FormValidator };
