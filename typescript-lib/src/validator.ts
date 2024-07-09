@@ -255,9 +255,9 @@ class FormValidator {
     if (handlers.length) {
       return handlers.map((handler) =>
         handler(element, {
-          getValidityMessage: (s) => this.getValidityMessage(s),
-          showError: (s) => this.showError(s),
-          hideError: (s) => this.hideError(s),
+          getValidityMessage: (s:unknown) => this.getValidityMessage(s as TSupportedElementTypes),
+          showError: (s:unknown) => this.showError(s as TSupportedElementTypes),
+          hideError: (s:unknown) => this.hideError(s as TSupportedElementTypes),
         })
       );
     }
