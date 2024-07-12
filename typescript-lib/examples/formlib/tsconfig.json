@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6", "dom"],
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "/Users/ravsingh20/Documents/GITHUB/repositories/web/typescript-lib",
+    "composite": true
+  },
+  "include": ["/Users/ravsingh20/Documents/GITHUB/repositories/web/typescript-lib/libs/formlib"]
+}
