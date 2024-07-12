@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Form Lib</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="p-5  relative w-full">
+    <form id="demoform1" class="p-4 w-max border rounded-md flex flex-col gap-4 m-auto">
+        <h2 class="font-semibold text-2xl">
+            HTML Form Validator Demo
+        </h2>
+        <div>
+            <label for="firstName" class="font-medium block mb-1">First Name</label>
+            <input class="p-4 py-2 border block w-full rounded border-purple-800" type="text" name="firstName"
+                pattern="[\w\d'\. ]" required />
+            <p data-error-invalid class="text-sm text-rose-900 hidden">
+                Oops.. Seems you have entered an incorrect value for First Name field. <br>
+                Please Enter only alphabets, numbers, dots and spaces.
+            </p>
+            <p data-error-missing class="text-sm text-rose-900 hidden">
+                First name is required!
+            </p>
+        </div>
+        <div>
+            <label for="lastName" class="font-medium block mb-1">Last Name</label>
+            <input class="p-4 py-2 border block w-full rounded border-purple-800" type="text" name="lastName"
+                pattern="[\w\d'\. ]" required />
+            <p data-error-invalid class="text-sm text-rose-900 hidden">
+                incorrect value!
+            </p>
+            <p data-error-missing class="text-sm text-rose-900 hidden">
+                Missing!
+            </p>
+        </div>
+
+        <!-- <div>
+            <label for="email" class="font-medium block mb-1">Email Address</label>
+            <input class="p-4 py-2 border block w-full rounded border-purple-800" type="email" name="email" required />
+            <p data-error-msg-invalid class="text-sm text-rose-900 hidden">
+                incorrect value!
+            </p>
+            <p data-error-msg-missing class="text-sm text-rose-900 hidden">
+                Missing!
+            </p>
+        </div>
+
+        <div>
+            <label for="phone" class="font-medium block mb-1">Phone</label>
+            <input class="p-4 py-2 border block w-full rounded border-purple-800" type="tel" name="phone" />
+            <p data-error-msg-invalid class="text-sm text-rose-900 hidden">
+                incorrect value!
+            </p>
+        </div>
+        <div>
+            <fieldset>
+                <legend class="font-medium block mb-1">Profile</legend>
+                <div class="p-4 py-2 block w-full">
+                    <label class="mr-4">
+                        <input type="checkbox" name="profile" value="d" />
+                        <span class="ml-1">Developer</span>
+                    </label>
+                    <label class="mr-4">
+                        <input type="checkbox" name="profile" value="t" />
+                        <span class="ml-1">Tester</span>
+                    </label>
+
+                </div>
+                <p data-error-msg-required class="text-sm text-rose-900 hidden">
+                    Select a value!
+                </p>
+
+            </fieldset>
+        </div>
+        <div>
+            <label for="location" class="font-medium block mb-1">Location</label>
+            <select name="location" required class="p-4 py-2 border block w-full rounded border-purple-800">
+                <option value="default">Select a value</option>
+                <option value="in">India</option>
+                <option value="cn">China</option>
+                <option value="ca">Canada</option>
+            </select>
+            <p data-error-msg-required class="text-sm text-rose-900 hidden">
+                Select a value!
+            </p>
+        </div>
+
+        <fieldset required>
+            <legend class="font-medium block mb-1">Are you based out of your current localtion ?</legend>
+            <div class="p-4 py-2 block w-full">
+                <label class="mr-4">
+                    <input type="radio" value="yes" name="outoflocation" />
+                    <span class="ml-1">Yes</span>
+                </label>
+                <label class="mr-4">
+                    <input type="radio" value="no" name="outoflocation" />
+                    <span class="ml-1">No</span>
+                </label>
+                <label class="mr-4">
+                    <input type="radio" value="na" name="outoflocation" />
+                    <span class="ml-1">Choose Not to tell</span>
+                </label>
+
+            </div>
+            <p data-error-msg-required class="text-sm text-rose-900 hidden">
+                Select a value!
+            </p>
+        </fieldset> -->
+        <div class="m-6">
+            <input
+                class="py-2 px-6 border rounded border-blue cursor-pointer bg-purple-800 text-white border-purple-800"
+                type="submit" value="Sumit" />
+            <input class="py-2 px-6 border rounded border-blue cursor-pointer border-purple-800" type="reset"
+                value="Reset" />
+        </div>
+    </form>
+</body>
+<script src="../../dist/form-lib.js"></script>
+<script src="script.js"></script>
+
+</html>

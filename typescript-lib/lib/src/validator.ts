@@ -25,6 +25,7 @@ type TCustomValidatorReturns<T> = CreateReadonly<{
   getValidityMessage: () => string;
   hideError: () => void;
   showError: () => void;
+  validateOnSubmit?: boolean;
 }>;
 
 type TSupportedElementTypes =
@@ -69,7 +70,8 @@ function CustomValidityHandler<
   form?.addEventListener("reset", onReset);
 
   function onInput(e: Event) {
-    _validated(element, e);
+    //validate only on submit
+    _reset(element, e);
   }
 
   function onInvalid(e: Event) {
@@ -77,7 +79,8 @@ function CustomValidityHandler<
   }
 
   function onChange(e: Event) {
-    _validated(element, e);
+    //validate only on submit
+    _reset(element, e);
   }
 
   function onReset(e: Event) {
@@ -91,7 +94,9 @@ function CustomValidityHandler<
       } else {
         input.setCustomValidity(getValidityMessage(element));
         showError(input as ElementGenericType);
-        setTimeout(() => input.reportValidity());
+        if (e?.type != "invalid") {
+          setTimeout(() => input.reportValidity());
+        }
       }
       return;
     }
@@ -105,14 +110,18 @@ function CustomValidityHandler<
     } else {
       input.setCustomValidity(getValidityMessage(element));
       showError(input as ElementGenericType);
-      setTimeout(() => input.reportValidity());
+      if (e?.type != "invalid") {
+        setTimeout(() => input.reportValidity());
+      }
     }
   }
   function _reset(element: ElementGenericType, e?: Event) {
     _valid = false;
     element.setCustomValidity("");
     hideError(element);
-    element.reportValidity();
+    // if(e?.type != "invalid"){
+    //   setTimeout(() => element.reportValidity());
+    // }
   }
 
   return {
@@ -183,6 +192,9 @@ const DropdownWithMandatorySelectionValidator: TDropdownWithMandatorySelectionVa
       getValidityMessage() {
         return validater.getValidityMessage();
       },
+      get validateOnSubmit() {
+        return true;
+      },
     };
   };
 
@@ -229,10 +241,38 @@ class FormValidator {
     ];
     elements.forEach((s) => {
       const v = this.createValidator(s);
-      if (Array.isArray(v)) {
+      if (Array.isArray(v) && v.length) {
         this.validators.push(...v);
       }
     });
+    this._handleFocusInvalid();
+  }
+  private _handleFocusInvalid() {
+    const invalid: any[] = [];
+    if (this.validators.length) {
+      let _h: any = 0;
+      this.form.addEventListener(
+        "invalid",
+        (e) => {
+          invalid.push(e.target);
+          if (_h) {
+            clearTimeout(_h);
+          }
+          _h = setTimeout(() => {
+            if (invalid.length) {
+              this.form.dispatchEvent(
+                new CustomEvent("focus-invalid-element", {
+                  bubbles: true,
+                  cancelable:false,
+                  detail: { element: invalid[0] },
+                })
+              );
+            }
+          });
+        },
+        { capture: true }
+      );
+    }
   }
   private createValidator(element: TSupportedElementTypes) {
     let handlers: Array<(...args: any[]) => any> = [];
@@ -240,10 +280,13 @@ class FormValidator {
       case isInput(element):
         handlers.push(CustomValidityHandler);
         break;
+
       case isSelectElement(element):
         if (element.required) {
           handlers.push(DropdownWithMandatorySelectionValidator);
         }
+        break;
+
       case isTextarea(element):
         if (element.required) {
           handlers.push(CustomValidityHandler);
@@ -251,40 +294,62 @@ class FormValidator {
         if (element.dataset.pattern) {
           handlers.push(TextAreaPatternValidator);
         }
+        break;
+
+      default:
+        console.warn("unsupported type", [element]);
+        break;
     }
     if (handlers.length) {
-      return handlers.map((handler) =>
-        handler(element, {
-          getValidityMessage: (s:unknown) => this.getValidityMessage(s as TSupportedElementTypes),
-          showError: (s:unknown) => this.showError(s as TSupportedElementTypes),
-          hideError: (s:unknown) => this.hideError(s as TSupportedElementTypes),
-        })
-      );
+      return handlers
+        .map((handler) =>
+          handler(element, {
+            getValidityMessage: (s: unknown, e: any) =>
+              this.getValidityMessage(s as TSupportedElementTypes, e),
+            showError: (s: unknown, e: any) =>
+              this.showError(s as TSupportedElementTypes, e),
+            hideError: (s: unknown, e: any) =>
+              this.hideError(s as TSupportedElementTypes, e),
+          })
+        )
+        .filter((s) => !!s);
     }
   }
-  protected showError(element: TSupportedElementTypes) {
+  protected showError(element: TSupportedElementTypes, e: any) {
     element.dispatchEvent(
       new CustomEvent("show-custom-error", {
+        bubbles: true,
         detail: {
           validator: this.validators.find((s) => s.element == element),
+          element,
+          event: e,
         },
       })
     );
   }
-  protected hideError(element: TSupportedElementTypes) {
+  protected hideError(element: TSupportedElementTypes, e: any) {
     element.dispatchEvent(
       new CustomEvent("hide-custom-error", {
+        bubbles: true,
         detail: {
           validator: this.validators.find((s) => s.element == element),
+          element,
+          event: e,
         },
       })
     );
   }
-  protected getValidityMessage(element: TSupportedElementTypes): string {
+  protected getValidityMessage(
+    element: TSupportedElementTypes,
+    evt: any
+  ): string {
     const e = new CustomEvent("custom-validity-message", {
+      bubbles: true,
       detail: {
         validator: this.validators.find((s) => s.element == element),
         message: "",
+        element,
+        event: evt,
       },
     });
     element.dispatchEvent(e);
