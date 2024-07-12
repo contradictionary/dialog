@@ -3,8 +3,7 @@
     "lib": ["es5", "es6", "dom"],
     "strict": true,
     "outDir": "./dist",
-    "rootDir": "/Users/ravsingh20/Documents/GITHUB/repositories/web/typescript-lib",
-    "composite": true
+    "rootDir": "./src",
   },
-  "include": ["/Users/ravsingh20/Documents/GITHUB/repositories/web/typescript-lib/libs/formlib"]
+  "include": ["../../libs/formlib/dist/form-lib.d.ts"]
 }

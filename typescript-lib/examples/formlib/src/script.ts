@@ -1,15 +1,14 @@
 const [form, submitBtn] = Array.from(
   document.querySelectorAll("#demoform1,[type=submit]")
 );
-const validator = new FormValidator(form);
+const validator = new FormValidator(form as HTMLFormElement);
 
-const getErrorElement = (element) => {
-  /**@type */
-  let msgElement;
+const getErrorElement = (element: HTMLInputElement) => {
+  let msgElement: HTMLElement | null;
   if (element.validity.valueMissing) {
-    msgElement = element.parentElement.querySelector("[data-error-missing]");
+    msgElement = element.parentElement!.querySelector("[data-error-missing]");
   } else {
-    msgElement = element.parentElement.querySelector("[data-error-invalid]");
+    msgElement = element.parentElement!.querySelector("[data-error-invalid]");
   }
   return msgElement;
 };
@@ -19,13 +18,17 @@ const getErrorElement = (element) => {
  * @param {Event} [e]
  */
 function showRequiredMessage(element, e) {
-element.classList.add('border-red-300');
+  element.classList.add("border-red-300");
   getErrorElement(element)?.classList?.remove("hidden");
 }
 function hideRequiredError(element, e) {
-element.classList.remove('border-red-300');
-  element.parentElement.querySelector("[data-error-missing]")?.classList?.add("hidden");
-  element.parentElement.querySelector("[data-error-invalid]")?.classList?.add("hidden");
+  element.classList.remove("border-red-300");
+  element.parentElement
+    .querySelector("[data-error-missing]")
+    ?.classList?.add("hidden");
+  element.parentElement
+    .querySelector("[data-error-invalid]")
+    ?.classList?.add("hidden");
 }
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -33,14 +36,14 @@ form.addEventListener("submit", (e) => {
 submitBtn.addEventListener("click", (e) => {
   console.log("submit click");
 });
-form.addEventListener("show-custom-error", ({detail}) => {
+form.addEventListener("show-custom-error", ({ detail }) => {
   if (!detail) {
     return;
   }
   const { element, event } = detail;
   showRequiredMessage(element, event);
 });
-form.addEventListener("hide-custom-error", ({detail}) => {
+form.addEventListener("hide-custom-error", ({ detail }) => {
   if (!detail) {
     return;
   }
@@ -48,7 +51,7 @@ form.addEventListener("hide-custom-error", ({detail}) => {
   hideRequiredError(element, event);
 });
 
-form.addEventListener("custom-validity-message", ({detail}) => {
+form.addEventListener("custom-validity-message", ({ detail }) => {
   if (!detail) {
     return;
   }
