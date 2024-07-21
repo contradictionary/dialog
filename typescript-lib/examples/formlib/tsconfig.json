@@ -4,6 +4,10 @@
     "strict": true,
     "outDir": "./dist",
     "rootDir": "./src",
+    "composite": true,
+    "sourceMap": true
   },
-  "include": ["../../libs/formlib/dist/form-lib.d.ts"]
+  "references": [{
+    "path": "../../libs/formlib"
+  }]
 }

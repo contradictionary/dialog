@@ -102,7 +102,7 @@ function CustomValidityHandler<
     }
     if (e?.type == "invalid") {
       //prevent default error tooltip
-      e?.preventDefault();
+      // e?.preventDefault();
     }
     _valid = input.validity.valid;
     if (input.validity.valid) {
@@ -146,6 +146,73 @@ function CustomValidityHandler<
   };
 }
 
+const CustomRadioValidityHandler = (
+  element: HTMLFormElement,
+  params: TCustomValidatorParams<HTMLInputElement>
+) => {
+  //assumption: no dynamically created element,all elements
+  //already present within the form
+  //and required attribute is not dynamically changed
+
+  //find all radios
+  let AllRadioInputs = Array.from(
+    element.querySelectorAll(
+      'input[required][type="radio"][name]:not([disabled])'
+    ) as unknown as HTMLInputElement[]
+  );
+
+  //find all radio inputs with same name
+  const radioGroups = AllRadioInputs.map((radio) => {
+    const group = Array.from(
+      element.querySelectorAll(
+        'input[required][type="radio"][name="' +
+          radio.name +
+          '"]:not([custom-validity-handled]):not([disabled])'
+      ) as unknown as HTMLInputElement[]
+    );
+    group.forEach((s) => s.setAttribute("custom-validity-handled", "true"));
+    return group;
+  });
+  const _onInvalid = (e: Event) => {
+    const currentInput = e.target as HTMLInputElement;
+    e.preventDefault(); //no default tooltip
+    currentInput.setCustomValidity(params.getValidityMessage(currentInput)); //set as invalid
+  };
+  const _reset = (group: HTMLInputElement[]) => {
+    group.forEach((s) => {
+      let msg = "";
+      if (!s.checked) {
+        msg = params.getValidityMessage(s);
+      }
+      s.setCustomValidity(msg);
+    });
+  };
+  radioGroups.forEach((group) => {
+    group.forEach((radio) => {
+      radio.addEventListener("invalid", _onInvalid);
+      radio.addEventListener("change", () => _reset(group));
+    });
+  });
+  element.addEventListener("reset", () =>
+    radioGroups.forEach((e) => _reset(e))
+  );
+
+  return {
+    get element(){
+      return element
+    },
+  validate: () => {
+    radioGroups.forEach(s=>_reset(s))
+    radioGroups.forEach(s=>s.forEach(e=>e.reportValidity()));
+  },
+  getValidityMessage: () => {
+    return getC
+  };
+  hideError: () => void;
+  showError: () => void;
+  };
+};
+
 type TDropdownWithMandatorySelectionValidator = (
   element: HTMLSelectElement,
   {
@@ -158,9 +225,9 @@ const DropdownWithMandatorySelectionValidator: TDropdownWithMandatorySelectionVa
   (element, { getValidityMessage, showError, hideError }) => {
     function _validate(input: HTMLSelectElement, e?: Event) {
       if (e?.type === "invalid") {
-        e.preventDefault();
+        // e.preventDefault();
       }
-      return input.selectedIndex < 0 || _isDropdownDefaultValue(input);
+      return input.selectedIndex >= 0 && !_isDropdownDefaultValue(input);
     }
 
     function _isDropdownDefaultValue(element: HTMLSelectElement) {
@@ -177,12 +244,19 @@ const DropdownWithMandatorySelectionValidator: TDropdownWithMandatorySelectionVa
     if (!validater) {
       return;
     }
+    let _v = true;
     return {
       validate() {
-        return validater.validate();
+        _v = _validate(element);
+        if (!_v) {
+          element.setCustomValidity(getValidityMessage(element));
+        } else {
+          element.setCustomValidity("");
+        }
+        return _v;
       },
       get valid() {
-        return validater.valid;
+        return _v;
       },
       showError: validater.showError,
       hideError: validater.hideError,
@@ -227,8 +301,8 @@ const TextAreaPatternValidator: typeof CustomValidityHandler<
 };
 
 class FormValidator {
-  form: HTMLFormElement;
-  validators: TCustomValidatorReturns<TSupportedElementTypes>[] = [];
+  readonly form: HTMLFormElement;
+  readonly validators: TCustomValidatorReturns<TSupportedElementTypes>[] = [];
   constructor(form: HTMLFormElement) {
     this.form = form;
     this.init();
@@ -246,6 +320,12 @@ class FormValidator {
       }
     });
     this._handleFocusInvalid();
+    this.form.querySelector("[type=submit]")?.addEventListener("click", () => {
+      console.log("submit-click-validate");
+      this.validators
+        .filter((v) => v.validateOnSubmit)
+        .forEach((s) => s.validate());
+    });
   }
   private _handleFocusInvalid() {
     const invalid: any[] = [];
@@ -263,8 +343,8 @@ class FormValidator {
               this.form.dispatchEvent(
                 new CustomEvent("focus-invalid-element", {
                   bubbles: true,
-                  cancelable:false,
-                  detail: { element: invalid[0] },
+                  cancelable: false,
+                  detail: { element: invalid.splice(0)[0] },
                 })
               );
             }
