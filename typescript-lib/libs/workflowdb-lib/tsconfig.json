@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6", "dom"],
     "rootDir": "./src",
-    "outFile": "./dist/form-lib.js",
+    "outFile": "./dist/server-lib.js",
     "strict": true,
     // "verbatimModuleSyntax": true,
     "sourceMap": true,
@@ -10,6 +9,6 @@
     "declaration": true,
     "declarationMap": true,
     "composite": true
-    // "declarationDir": "./dist/types"
+    // "declarationDir": "./dist/types
   }
 }
