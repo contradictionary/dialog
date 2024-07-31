@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "rootDir": "./src",
-    "outFile": "./dist/server-lib.js",
+    // "outFile": "./dist/server-lib.js",
     "strict": true,
     // "verbatimModuleSyntax": true,
     "sourceMap": true,
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
-    "composite": true
-    // "declarationDir": "./dist/types
-  }
+    "composite": true,
+    "esModuleInterop": true,
+    "target": "ES5",
+    // "module": "CommonJS",
+  },
+  "exclude": ["tests"],
+  "include": ["./src/**/*.ts", "src/test/login.ts"]
 }

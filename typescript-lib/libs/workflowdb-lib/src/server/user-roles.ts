@@ -1,4 +1,7 @@
-const userroles = [
+import {UserType,UserAgentCategory,agents,UserStatus,UserACL} from './system-masters';
+import { agentqueueoutcomes } from './agentqueueoutcomes';
+
+export const userroles = [
     {
         id: 1,
         name: 'bulk-uploader',
@@ -31,7 +34,7 @@ const userroles = [
         name: 'web dashboard',
         desc: '',
         rolecategory: [UserType.USER, UserAgentCategory.CONTROL],
-        agentqueue: agentqueueoutcomes.filter(s => s.agent.category == UserAgentCategory.CONTROL && systemagents.indexOf(s.agent) == -1),
+        agentqueue: agentqueueoutcomes.filter(s => s.agent.category == UserAgentCategory.CONTROL && s.agent.type.includes(UserType.USER)),
         acls: [UserACL.DOWNLOAD_FILE, UserACL.VIEW_FILE],
         status: UserStatus.ENABLED,
     },

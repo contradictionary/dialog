@@ -1,4 +1,5 @@
-const agentqueueoutcomes = [
+import {agents,Outcome,Queue} from './system-masters';
+export const agentqueueoutcomes = [
     {
         id: 1,
         agent: agents.BULKUPLOAD,
@@ -46,9 +47,9 @@ for (let i = 0; i < agentqueueoutcomes.length; i++) {
     agentqueueoutcomes_map[key].push(entry);
 }
 
-const getnextqueue = (agent: { id: number }, outcome: number, withfile = false) => {
+export const getnextqueue = (agent: { id: number }, outcome: number, withfile = false) => {
     return agentqueueoutcomes_map[`${agent.id}_${outcome}`];
 };
-const isvalidoutcome = (agent: { id: number }, outcome: number) => {
+export const isvalidoutcome = (agent: { id: number }, outcome: number) => {
     return getnextqueue(agent, outcome)?.length > 0;
 }
